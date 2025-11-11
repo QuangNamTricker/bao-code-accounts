@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý tài khoản - Personal Account Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Personal Account Manager</h1>
+            <div class="user-info">
+                <span id="user-email"></span>
+                <button id="logout-btn" class="logout-btn">Đăng xuất</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Bộ lọc và tìm kiếm -->
+        <section class="filters-section">
+            <h2>Bộ lọc & Tìm kiếm</h2>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="url-filter">Lọc theo URL:</label>
+                    <select id="url-filter">
+                        <option value="">Tất cả URL</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="search-account">Tìm tài khoản:</label>
+                    <input type="text" id="search-account" placeholder="Nhập tên tài khoản...">
+                </div>
+                <div class="filter-group">
+                    <label for="balance-filter">Lọc số dư:</label>
+                    <select id="balance-filter">
+                        <option value="all">Tất cả</option>
+                        <option value="has-money">Có tiền (>0)</option>
+                        <option value="no-money">Không có tiền</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="code-filter">Trạng thái code:</label>
+                    <select id="code-filter">
+                        <option value="all">Tất cả</option>
+                        <option value="requested">Đã xin code</option>
+                        <option value="not-requested">Chưa xin code</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="phone-filter">Xác thực SĐT:</label>
+                    <select id="phone-filter">
+                        <option value="all">Tất cả</option>
+                        <option value="verified">Đã xác thực</option>
+                        <option value="not-verified">Chưa xác thực</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button id="reset-filters" class="reset-btn">Đặt lại bộ lọc</button>
+                    <button id="expand-all" class="expand-btn">Mở tất cả</button>
+                    <button id="collapse-all" class="collapse-btn">Đóng tất cả</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="add-account-section">
+            <h2>Thêm tài khoản mới</h2>
+            <form id="add-account-form">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="url">URL web</label>
+                        <input type="url" id="url" required placeholder="https://example.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="username">Tài khoản</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="phone">SĐT</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    <div class="input-group password-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" id="password" required>
+                        <span class="toggle-password" data-target="password">👁️</span>
+                    </div>
+                    <div class="input-group checkbox-group">
+                        <label for="phone-verified">
+                            <input type="checkbox" id="phone-verified">
+                            Đã xác thực SĐT
+                        </label>
+                    </div>
+                    <div class="input-group checkbox-group">
+                        <label for="code-requested">
+                            <input type="checkbox" id="code-requested">
+                            Đã xin code
+                        </label>
+                    </div>
+                    <div class="input-group">
+                        <label for="balance">Số dư</label>
+                        <input type="number" id="balance" step="0.01" placeholder="0">
+                    </div>
+                    <div class="input-group full-width">
+                        <label for="notes">Ghi chú</label>
+                        <textarea id="notes" rows="3" placeholder="Ghi chú về tài khoản..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Thêm tài khoản</button>
+            </form>
+        </section>
+
+        <section class="accounts-section">
+            <div class="section-header">
+                <h2>Danh sách tài khoản</h2>
+                <div class="summary-stats" id="summary-stats">
+                    <!-- Thống kê sẽ được cập nhật ở đây -->
+                </div>
+            </div>
+            
+            <div id="loading" class="loading">Đang tải dữ liệu...</div>
+            
+            <!-- Container cho các nhóm URL -->
+            <div id="url-groups-container" class="url-groups-container">
+                <!-- Các nhóm URL sẽ được tạo động ở đây -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal chỉnh sửa tài khoản -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Chỉnh sửa tài khoản</h2>
+            <form id="edit-account-form">
+                <input type="hidden" id="edit-id">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="edit-url">URL web</label>
+                        <input type="url" id="edit-url" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-username">Tài khoản</label>
+                        <input type="text" id="edit-username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-phone">SĐT</label>
+                        <input type="tel" id="edit-phone">
+                    </div>
+                    <div class="input-group password-group">
+                        <label for="edit-password">Mật khẩu</label>
+                        <input type="password" id="edit-password" required>
+                        <span class="toggle-password" data-target="edit-password">👁️</span>
+                    </div>
+                    <div class="input-group checkbox-group">
+                        <label for="edit-phone-verified">
+                            <input type="checkbox" id="edit-phone-verified">
+                            Đã xác thực SĐT
+                        </label>
+                    </div>
+                    <div class="input-group checkbox-group">
+                        <label for="edit-code-requested">
+                            <input type="checkbox" id="edit-code-requested">
+                            Đã xin code
+                        </label>
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-balance">Số dư</label>
+                        <input type="number" id="edit-balance" step="0.01">
+                    </div>
+                    <div class="input-group full-width">
+                        <label for="edit-notes">Ghi chú</label>
+                        <textarea id="edit-notes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" id="cancel-edit">Hủy</button>
+                    <button type="submit" class="submit-btn">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Thông báo -->
+    <div id="notification" class="notification"></div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
