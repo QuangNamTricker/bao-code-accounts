@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Personal Account Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-toggle">
+                <button id="login-toggle" class="toggle-btn active">Đăng nhập</button>
+                <button id="signup-toggle" class="toggle-btn">Đăng ký</button>
+            </div>
+            
+            <div class="form-content">
+                <!-- Form Đăng nhập -->
+                <form id="login-form" class="form active">
+                    <h2>Đăng nhập</h2>
+                    <div class="input-group">
+                        <input type="email" id="login-email" required>
+                        <label for="login-email">Email</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="login-password" required>
+                        <label for="login-password">Mật khẩu</label>
+                        <span class="toggle-password" data-target="login-password">👁️</span>
+                    </div>
+                    <button type="submit" class="submit-btn">Đăng nhập</button>
+                </form>
+                
+                <!-- Form Đăng ký -->
+                <form id="signup-form" class="form">
+                    <h2>Đăng ký</h2>
+                    <div class="input-group">
+                        <input type="email" id="signup-email" required>
+                        <label for="signup-email">Email</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="signup-password" required minlength="6">
+                        <label for="signup-password">Mật khẩu (ít nhất 6 ký tự)</label>
+                        <span class="toggle-password" data-target="signup-password">👁️</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="confirm-password" required>
+                        <label for="confirm-password">Xác nhận mật khẩu</label>
+                    </div>
+                    <button type="submit" class="submit-btn">Đăng ký</button>
+                </form>
+            </div>
+            
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
